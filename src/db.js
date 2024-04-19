@@ -31,6 +31,13 @@ let capsEntries = entries.map((entry) => [
 ]);
 sequelize.models = Object.fromEntries(capsEntries);
 
+const { Space, Photo, User } = sequelize.models;
+
+User.belongsToMany(Space, { through: "Order" });
+Space.belongsToMany(User, { through: "Order" });
+
+
+
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');
   conn: sequelize, // para importart la conexión { conn } = require('./db.js');
