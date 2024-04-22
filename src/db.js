@@ -31,11 +31,29 @@ let capsEntries = entries.map((entry) => [
 ]);
 sequelize.models = Object.fromEntries(capsEntries);
 
-const { Space, Photo, User } = sequelize.models;
+const { Space, Photo, User, Rol, PaymentMethod } = sequelize.models;
 
 User.belongsToMany(Space, { through: "Order" });
 Space.belongsToMany(User, { through: "Order" });
 
+Rol.hasMany(User);
+User.belongsTo(Rol);
+
+Space.belongsToMany(PaymentMethod, { through: "SpacePaymenth" });
+PaymentMethod.belongsToMany(Space, { through: "SpacePaymenth" });
+
+/* WARNING */
+/* Con esto borramos las tablas no descomentar */
+/*
+sequelize
+  .sync() // create the database table for our model(s)
+  .then(function(){
+    // do some work
+  })
+  .then(function(){
+    return sequelize.drop() // drop all tables in the db
+  });
+*/
 
 
 module.exports = {
