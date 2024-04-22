@@ -63,16 +63,7 @@ const createPaymenthMethods = () => {
 };
 
 const createSpace = () => {
-  spaces.forEach((space, i) => {
-    p = p.then(
-      () =>
-        (p = p
-          .then(() => Space.create(space))
-          .then((space) => {
-            space.setPaymenth([i + 1]);
-          }))
-    );
-  });
+  spaces.forEach((space) => (p = p.then(() => Space.create(space))));
 };
 
 module.exports = () => {
