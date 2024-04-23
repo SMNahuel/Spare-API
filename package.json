@@ -38,9 +38,9 @@
     "sequelize": "^6.3.4"
   },
   "devDependencies": {
-    "chai": "^4.2.0",
+    "supertest-session": "^4.0.0",
     "mocha": "^8.1.1",
-    "supertest": "^4.0.2",
-    "supertest-session": "^4.0.0"
+    "chai": "^4.2.0",
+    "supertest": "^4.0.2"
   }
 }
