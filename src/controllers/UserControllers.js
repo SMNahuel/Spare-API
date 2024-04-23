@@ -1,13 +1,12 @@
 // controllers/UserController.js
 const bcrypt = require('bcryptjs');
 const { Op } = require('sequelize');
-const { User } = require("./src/db");
+const { User } = require("../db");
 
  
 // Controlador para agregar un nuevo usuario
 const addUser = async (req, res) => {
   const { email, password, dni, dateBorth, paymentMethod, name, lastName, photo, country } = req.body;
-
   // Verificar si el usuario ya existe en la base de datos
   const existingUser = await User.findOne({
     where: {

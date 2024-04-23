@@ -1,7 +1,7 @@
 // routes.js
 const express = require('express');
 const router = express.Router();
-const UserController = require('../controllers/UserController');
+const UserController = require('../controllers/UserControllers');
 
 router.post('/users', UserController.addUser);
 router.get('/users/:userId', UserController.getUserById);

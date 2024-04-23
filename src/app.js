@@ -1,28 +1,38 @@
-// app.js
-const express = require('express');
-const bodyParser = require('body-parser');
-const { Sequelize } = require('sequelize');
-const routes =require('./routes/User.js');
+const express = require("express");
+const cookieParser = require("cookie-parser");
+const bodyParser = require("body-parser");
+const morgan = require("morgan");
+const routes = require("./routes/index.js");
 
+require("./db.js");
 
-const app = express();
-const PORT = 3000;
+const server = express();
 
-// Configurar body-parser para manejar solicitudes JSON
-app.use(bodyParser.json());
+server.name = "API";
 
-// Configurar Sequelize
-const sequelize = new Sequelize('database', 'username', 'password', {
-  dialect: 'mysql',
-  host: 'localhost',
+server.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
+server.use(bodyParser.json({ limit: "50mb" }));
+server.use(cookieParser());
+server.use(morgan("dev"));
+server.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+  res.header("Access-Control-Allow-Credentials", "true");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  next();
 });
 
+server.use("/", routes);
 
-
-// Agregar las rutas al servidor
-app.use(routes);
-
-// Iniciar el servidor
-app.listen(PORT, () => {
-  console.log(`Servidor escuchando en el puerto ${PORT}`);
+server.use((err, req, res, next) => {
+  // eslint-disable-line no-unused-vars
+  const status = err.status || 500;
+  const message = err.message || err;
+  console.error(err);
+  res.status(status).send(message);
 });
+
+module.exports = server;
