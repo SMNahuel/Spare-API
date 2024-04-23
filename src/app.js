@@ -3,6 +3,7 @@ const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
 const session = require("express-session");
+const routes = require("./routes/index.js");
 
 require("./db.js");
 
@@ -24,6 +25,8 @@ server.use((req, res, next) => {
   );
   next();
 });
+
+server.use("/", routes);
 
 server.use((err, req, res, next) => {
   // eslint-disable-line no-unused-vars
